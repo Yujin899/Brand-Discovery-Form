@@ -44,6 +44,24 @@
     <div id="cursor-ring"></div>
 
     <!-- ============================================================
+         RESUME OVERLAY — shown when saved progress is detected
+         ============================================================ -->
+    <div id="resume-overlay">
+        <div class="resume-card">
+            <div class="resume-eyebrow">Welcome Back</div>
+            <h3 class="resume-title">Resume where<br>you left off?</h3>
+            <p class="resume-desc">We saved your previous answers. Would you like to continue or start fresh?</p>
+            <div class="resume-actions">
+                <button class="btn-resume" id="btn-resume" type="button">
+                    <span>Resume</span>
+                    <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                </button>
+                <button class="btn-fresh" id="btn-fresh" type="button">Start Fresh</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================
          FIXED TOP NAV
          ============================================================ -->
     <nav id="topnav">
@@ -62,6 +80,7 @@
     <div id="progress-track">
         <div id="progress-fill"></div>
     </div>
+    <div id="progress-counter"></div>
 
     <!-- ============================================================
          SIDE STEP DOTS (desktop)

@@ -982,6 +982,219 @@ body::after {
     color: var(--bg-color);
 }
 
+/* ============================================================
+   BACK BUTTON
+   ============================================================ */
+.btn-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: transparent;
+    border: none;
+    color: var(--primary-40);
+    font-family: var(--font-body);
+    font-size: 0.7rem;
+    font-weight: 400;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    cursor: none;
+    padding: 10px 4px;
+    transition: color 0.3s var(--ease-smooth);
+    -webkit-appearance: none;
+}
+
+.btn-back svg {
+    width: 14px;
+    height: 14px;
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 1.5;
+    transition: transform 0.3s var(--ease-back);
+}
+
+.btn-back:hover {
+    color: var(--primary-color);
+}
+
+.btn-back:hover svg {
+    transform: translateX(-4px);
+}
+
+@media (hover: none) {
+    .btn-back { cursor: pointer; }
+}
+
+/* ============================================================
+   PROGRESS COUNTER
+   ============================================================ */
+#progress-counter {
+    position: fixed;
+    bottom: 12px;
+    right: clamp(20px, 4vw, 40px);
+    font-family: var(--font-body);
+    font-size: 0.6rem;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    color: var(--primary-40);
+    z-index: 100;
+    opacity: 0;
+    transition: opacity 0.4s;
+}
+
+#form-wrapper ~ #progress-counter { opacity: 1; }
+
+/* ============================================================
+   RESUME OVERLAY
+   ============================================================ */
+#resume-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 300;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    background: rgba(13, 25, 13, 0.45);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+}
+
+#resume-overlay.is-visible {
+    display: flex;
+}
+
+.resume-card {
+    background: var(--bg-color);
+    padding: clamp(32px, 6vw, 56px);
+    max-width: 460px;
+    width: 90%;
+    border: 1px solid var(--primary-10);
+    position: relative;
+}
+
+.resume-eyebrow {
+    font-size: 0.6rem;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--accent-color);
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.resume-eyebrow::before {
+    content: '';
+    display: block;
+    width: 28px;
+    height: 1px;
+    background: var(--accent-color);
+}
+
+.resume-title {
+    font-family: var(--font-display);
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    font-weight: 300;
+    line-height: 1.1;
+    color: var(--primary-color);
+    margin-bottom: 16px;
+}
+
+.resume-desc {
+    font-size: 0.85rem;
+    font-weight: 300;
+    color: var(--primary-60);
+    line-height: 1.7;
+    margin-bottom: 32px;
+}
+
+.resume-actions {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+}
+
+.btn-resume {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--primary-color);
+    color: var(--bg-color);
+    border: 1.5px solid var(--primary-color);
+    padding: 14px 28px;
+    font-family: var(--font-body);
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.4s, color 0.4s;
+    -webkit-appearance: none;
+}
+
+.btn-resume svg {
+    width: 14px;
+    height: 14px;
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 1.5;
+}
+
+.btn-resume:hover {
+    background: var(--accent-color);
+    border-color: var(--accent-color);
+}
+
+.btn-fresh {
+    display: inline-flex;
+    align-items: center;
+    background: transparent;
+    color: var(--primary-60);
+    border: 1.5px solid var(--primary-20);
+    padding: 14px 28px;
+    font-family: var(--font-body);
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: border-color 0.3s, color 0.3s;
+    -webkit-appearance: none;
+}
+
+.btn-fresh:hover {
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+}
+
+/* ============================================================
+   SUBMIT BUTTON LOADING STATE
+   ============================================================ */
+.btn-continue.is-loading {
+    pointer-events: none;
+    opacity: 0.7;
+}
+
+.btn-continue.is-loading::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, transparent 0%, var(--accent-30) 50%, transparent 100%);
+    animation: loadingSweep 1.2s ease-in-out infinite;
+    z-index: 0;
+}
+
+@keyframes loadingSweep {
+    0%   { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}
+
+/* ============================================================
+   TEXTAREA AUTO-RESIZE
+   ============================================================ */
+.pf-area {
+    transition: height 0.2s var(--ease-smooth);
+    overflow: hidden;
+}
 
 /* ============================================================
    RESPONSIVE ADJUSTMENTS

@@ -24,6 +24,11 @@ const EMAILJS_CONFIG = {
 
 let FLAT_SLIDES = []; // flattened individual field slides
 
+const LS_DATA_KEY = 'brand_discovery_data';
+const LS_TIME_KEY = 'brand_discovery_timestamp';
+const LS_INDEX_KEY = 'brand_discovery_index';
+const LS_EXPIRY_DAYS = 7;
+
 // ── FETCH ────────────────────────────────────────────────────────
 async function fetchQuestions() {
     try {
@@ -80,8 +85,15 @@ function buildSlides(slides) {
             <div class="field-group${f.type === 'chips' ? ' wide' : ''}">
                 ${renderSingleField(f, i)}
             </div>
-            ${f.type === 'boolean' ? '' : `
             <div class="q-actions">
+                ${i > 0 ? `<button class="btn-back" data-back="${i}" type="button">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                        <line x1="19" y1="12" x2="5" y2="12"/>
+                        <polyline points="12 19 5 12 12 5"/>
+                    </svg>
+                    <span>Back</span>
+                </button>` : ''}
+                ${f.type === 'boolean' ? '' : `
                 <button class="btn-continue" data-slide="${i}" type="button">
                     <span>${isLast ? 'Submit' : 'Continue'}</span>
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
@@ -90,8 +102,8 @@ function buildSlides(slides) {
                     </svg>
                 </button>
                 <span class="key-hint">Press <kbd>Enter</kbd> ↵</span>
+                `}
             </div>
-            `}
         `;
 
         wrap.appendChild(slide);
@@ -150,6 +162,37 @@ class FormEngine {
         this.total = slides.length;
         this.isAnimating = false;
         this.data = {};
+        this._loadSavedData();
+    }
+
+    _loadSavedData() {
+        try {
+            const raw = localStorage.getItem(LS_DATA_KEY);
+            const ts = localStorage.getItem(LS_TIME_KEY);
+            if (!raw || !ts) return;
+            const age = (Date.now() - parseInt(ts)) / (1000 * 60 * 60 * 24);
+            if (age > LS_EXPIRY_DAYS) { this._clearStorage(); return; }
+            this.data = JSON.parse(raw);
+            this.savedIndex = parseInt(localStorage.getItem(LS_INDEX_KEY) || '0');
+        } catch (e) { console.warn('Failed to load saved data:', e); }
+    }
+
+    _saveToStorage() {
+        try {
+            localStorage.setItem(LS_DATA_KEY, JSON.stringify(this.data));
+            localStorage.setItem(LS_TIME_KEY, Date.now().toString());
+            localStorage.setItem(LS_INDEX_KEY, this.idx.toString());
+        } catch (e) { console.warn('Failed to save data:', e); }
+    }
+
+    _clearStorage() {
+        localStorage.removeItem(LS_DATA_KEY);
+        localStorage.removeItem(LS_TIME_KEY);
+        localStorage.removeItem(LS_INDEX_KEY);
+    }
+
+    hasSavedData() {
+        return Object.keys(this.data).length > 0 && this.savedIndex > 0;
     }
 
     startForm() {
@@ -164,7 +207,8 @@ class FormEngine {
         })
             .to(intro, { yPercent: -100, duration: 1.2 })
             .to('#scroll-hint', { opacity: 1, duration: 0.6 }, '-=0.3')
-            .to('#step-indicators', { opacity: 1, duration: 0.4 }, '-=0.4');
+            .to('#step-indicators', { opacity: 1, duration: 0.4 }, '-=0.4')
+            .to('#progress-counter', { opacity: 1, duration: 0.4 }, '-=0.4');
         this.go(0);
     }
 
@@ -195,7 +239,7 @@ class FormEngine {
                 if (inp) setTimeout(() => inp.focus(), 80);
             }
         })
-            .fromTo(s, { y: dir > 0 ? '100vh' : '-100vh' }, { y: '0%', duration: 0.9 }, 0)
+            .fromTo(s, { y: dir > 0 ? '100vh' : '-100vh', opacity: 0 }, { y: '0%', opacity: 1, duration: 0.9 }, 0)
             .fromTo(s.querySelector('.q-number'),
                 { opacity: 0, x: -16 }, { opacity: 1, x: 0, duration: 0.5, ease: EASE_POWER3 }, 0.35)
             .fromTo(s.querySelector('.q-question'),
@@ -295,12 +339,17 @@ class FormEngine {
         } else {
             this.data[pid][f.id] = s.querySelector(`#${f.id}-${uid}`)?.value.trim() || '';
         }
+        this._saveToStorage();
     }
 
     updateUI() {
         const slide = this.slides[this.idx];
         const pct = ((this.idx + 1) / this.total) * 100;
         gsap.to('#progress-fill', { width: `${pct}%`, duration: 0.5, ease: EASE_EXPO });
+
+        // Progress counter
+        const counter = document.querySelector('#progress-counter');
+        if (counter) counter.textContent = `${this.idx + 1} / ${this.total}`;
 
         // Highlight dot for section
         document.querySelectorAll('.step-dot').forEach(d => {
@@ -311,11 +360,20 @@ class FormEngine {
 
     finish() {
         this.isAnimating = true;
-        this.exitSlide(this.idx, 1);
-        const ty = document.querySelector('#thankyou-slide');
+
+        // Show loading state on the submit button
+        const submitBtn = document.querySelector(`[data-slide="${this.idx}"]`);
+        if (submitBtn) {
+            submitBtn.classList.add('is-loading');
+            submitBtn.disabled = true;
+            submitBtn.querySelector('span').textContent = 'Sending\u2026';
+        }
 
         // Send email first, then animate thank-you screen
         sendEmail(this.data).finally(() => {
+            this._clearStorage();
+            this.exitSlide(this.idx, 1);
+            const ty = document.querySelector('#thankyou-slide');
             gsap.timeline({ defaults: { ease: EASE_EXPO }, onComplete: () => { this.isAnimating = false; } })
                 .to(ty, { y: '0%', duration: 1.1 }, 0.2)
                 .fromTo('.ty-tag', { opacity: 0, x: -20 }, { opacity: 1, x: 0, duration: 0.6 }, 0.8)
@@ -324,11 +382,11 @@ class FormEngine {
                 .to('#btn-restart-ty', { opacity: 1, duration: 0.5, ease: EASE_BACK }, 1.5);
         });
 
-        gsap.to(['#progress-track', '#step-indicators', '#scroll-hint', '#topnav'],
+        gsap.to(['#progress-track', '#progress-counter', '#step-indicators', '#scroll-hint', '#topnav'],
             { opacity: 0, duration: 0.4, delay: 0.2 });
     }
 
-    restart() { location.reload(); }
+    restart() { this._clearStorage(); location.reload(); }
 }
 
 // ── INTRO ─────────────────────────────────────────────────────────
@@ -432,6 +490,7 @@ function initButtons(engine) {
     document.querySelector('#btn-restart')?.addEventListener('click', () => engine.restart());
     document.querySelector('#btn-restart-ty')?.addEventListener('click', () => engine.restart());
     document.addEventListener('click', e => { if (e.target.closest('.btn-continue')) engine.goNext(); });
+    document.addEventListener('click', e => { if (e.target.closest('.btn-back')) engine.goPrev(); });
 }
 
 // ── LOADING ───────────────────────────────────────────────────────
@@ -498,6 +557,96 @@ function sendEmail(data) {
         .catch(err => console.error('❌ EmailJS send failed:', err));
 }
 
+// ── RESTORE SAVED VALUES INTO DOM ─────────────────────────────────
+function restoreSlideValues(slides, data) {
+    slides.forEach((s, i) => {
+        const f = s.field;
+        const uid = `${i}`;
+        const pid = s.parentId;
+        const saved = data[pid]?.[f.id];
+        if (saved === undefined || saved === '') return;
+
+        const el = document.querySelector(`#slide-${i}`);
+        if (!el) return;
+
+        if (f.type === 'chips' && Array.isArray(saved)) {
+            saved.forEach(val => {
+                const chip = el.querySelector(`.chip[data-value="${val}"]`);
+                if (chip) chip.classList.add('is-selected');
+            });
+        } else if (f.type === 'boolean' && saved) {
+            const toggle = el.querySelector(`#bool-${f.id}-${uid}`);
+            if (toggle) {
+                toggle.dataset.value = saved;
+                const btn = toggle.querySelector(`[data-val="${saved}"]`);
+                if (btn) btn.classList.add('is-active');
+            }
+        } else {
+            const inp = el.querySelector(`#${f.id}-${uid}`);
+            if (inp) inp.value = saved;
+        }
+    });
+}
+
+// ── TEXTAREA AUTO-RESIZE ──────────────────────────────────────────
+function initTextareaResize() {
+    document.addEventListener('input', e => {
+        if (e.target.tagName === 'TEXTAREA') {
+            e.target.style.height = 'auto';
+            e.target.style.height = e.target.scrollHeight + 'px';
+        }
+    });
+}
+
+// ── AUTO-SAVE ON INPUT (debounced) ────────────────────────────────
+function initAutoSave(engine) {
+    let timer;
+    document.addEventListener('input', e => {
+        if (!e.target.matches('input, textarea') || engine.idx < 0) return;
+        clearTimeout(timer);
+        timer = setTimeout(() => engine.collect(), 500);
+    });
+}
+
+// ── RESUME OVERLAY ────────────────────────────────────────────────
+function initResume(engine) {
+    const overlay = document.querySelector('#resume-overlay');
+    if (!overlay) return;
+
+    if (!engine.hasSavedData()) {
+        overlay.style.display = 'none';
+        return;
+    }
+
+    // Show the resume overlay on top of the intro
+    overlay.classList.add('is-visible');
+
+    document.querySelector('#btn-resume')?.addEventListener('click', () => {
+        gsap.to(overlay, {
+            opacity: 0, duration: 0.5, ease: EASE_EXPO,
+            onComplete: () => {
+                overlay.style.display = 'none';
+                restoreSlideValues(engine.slides, engine.data);
+                engine.startForm();
+                // Jump to last saved slide after a brief delay for the start animation
+                const target = Math.min(engine.savedIndex || 0, engine.total - 1);
+                if (target > 0) {
+                    setTimeout(() => engine.go(target), 1000);
+                }
+            }
+        });
+    });
+
+    document.querySelector('#btn-fresh')?.addEventListener('click', () => {
+        engine._clearStorage();
+        engine.data = {};
+        gsap.to(overlay, {
+            opacity: 0, duration: 0.5, ease: EASE_EXPO,
+            onComplete: () => { overlay.style.display = 'none'; }
+        });
+    });
+}
+
 // ── INIT ──────────────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', async () => {
     // Initialise EmailJS with your public key
@@ -519,8 +668,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     initInputErrors();
     initKeyboard(engine);
     initButtons(engine);
+    initTextareaResize();
+    initAutoSave(engine);
+    initResume(engine);
 
     hideLoader();
     requestAnimationFrame(() => setTimeout(initIntroAnimation, 60));
 });
-
