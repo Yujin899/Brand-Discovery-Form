@@ -717,6 +717,12 @@ body.cursor-hover #cursor-ring {
     background: var(--primary-10);
 }
 
+@media (max-width: 768px) {
+    .intro-grid-line--desktop {
+        display: none;
+    }
+}
+
 /* ============================================================
    THANK YOU / COMPLETION SLIDE
    ============================================================ */
