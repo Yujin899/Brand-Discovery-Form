@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Arc Agency Brand Discovery — Tell us about your business and brand vision.">
+    <title>Brand Discovery | Arc Agency</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <!-- Tailwind CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        bg:      'var(--bg-color)',
+                        primary: 'var(--primary-color)',
+                        accent:  'var(--accent-color)',
+                    },
+                    fontFamily: {
+                        display: ['Cormorant Garamond', 'Playfair Display', 'serif'],
+                        sans:    ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+    <!-- ============================================================
+         CUSTOM CURSOR
+         ============================================================ -->
+    <div id="cursor-dot"></div>
+    <div id="cursor-ring"></div>
+
+    <!-- ============================================================
+         FIXED TOP NAV
+         ============================================================ -->
+    <nav id="topnav">
+        <div class="nav-logo">Arc Agency</div>
+        <div class="nav-meta">
+            <button class="nav-close-btn" id="btn-restart" title="Restart">
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- ============================================================
+         PROGRESS BAR (bottom)
+         ============================================================ -->
+    <div id="progress-track">
+        <div id="progress-fill"></div>
+    </div>
+
+    <!-- ============================================================
+         SIDE STEP DOTS (desktop)
+         ============================================================ -->
+    <div id="step-indicators">
+        <!-- Injected by JS -->
+    </div>
+
+    <!-- ============================================================
+         SCROLL HINT (bottom-left)
+         ============================================================ -->
+    <div id="scroll-hint">
+        <div class="scroll-arrows">
+            <span class="scroll-arrow"></span>
+            <span class="scroll-arrow"></span>
+            <span class="scroll-arrow"></span>
+        </div>
+        <span class="scroll-hint-text">Scroll or press Enter</span>
+    </div>
+
+    <!-- ============================================================
+         INTRO HERO SLIDE
+         ============================================================ -->
+    <div id="intro-slide">
+        <!-- Decorative grid lines — 2 on mobile, 6 on desktop -->
+        <div class="intro-grid" aria-hidden="true">
+            <div class="intro-grid-line" style="left:25%"></div>
+            <div class="intro-grid-line intro-grid-line--desktop" style="left:37.5%"></div>
+            <div class="intro-grid-line intro-grid-line--desktop" style="left:50%"></div>
+            <div class="intro-grid-line intro-grid-line--desktop" style="left:62.5%"></div>
+            <div class="intro-grid-line intro-grid-line--desktop" style="left:75%"></div>
+            <div class="intro-grid-line" style="left:87.5%"></div>
+        </div>
+
+        <div class="intro-eyebrow">Brand Discovery</div>
+
+        <h1 class="intro-h1">
+            <!-- Each word wrapped for split-word GSAP animation -->
+            <span class="word-wrap"><span class="word">Let's</span></span>
+            <span class="word-wrap"><span class="word">build</span></span>
+            <span class="word-wrap"><span class="word">something</span></span><br>
+            <span class="word-wrap"><span class="word"><em>extraordinary.</em></span></span>
+        </h1>
+
+        <p class="intro-desc">
+            A short questionnaire to help us understand your brand, your audience, and your ambitions. It takes about five minutes.
+        </p>
+
+        <button class="btn-start" id="btn-start">
+            <span>Begin the journey</span>
+            <!-- Arrow right icon -->
+            <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </button>
+    </div>
+
+    <!-- ============================================================
+         LOADING OVERLAY — shown while questions.json is fetching
+         ============================================================ -->
+    <div id="loading-overlay">
+        <div class="loader-ring"></div>
+    </div>
+
+    <!-- ============================================================
+         QUESTION SLIDES — rendered by JavaScript after fetch
+         ============================================================ -->
+    <div id="form-wrapper" aria-live="polite">
+        <!-- Slides injected by script.js -->
+    </div>
+
+    <!-- ============================================================
+         THANK YOU SLIDE
+         ============================================================ -->
+    <div id="thankyou-slide">
+        <div class="ty-tag">Submission Complete</div>
+        <h2 class="ty-h2">We'll be<br>in touch.</h2>
+        <p class="ty-p">
+            Thank you for sharing your vision. Our team will review your discovery and reach out within 2 business days to discuss next steps.
+        </p>
+        <button class="btn-start" id="btn-restart-ty" style="border-color: var(--accent-color); color: var(--accent-color); opacity:0;">
+            <span>Start Over</span>
+            <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </button>
+    </div>
+
+    <!-- EmailJS — sends form answers to your inbox, no backend needed -->
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
+    <!-- GSAP + ScrollTrigger -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

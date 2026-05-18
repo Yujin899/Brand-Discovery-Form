@@ -1,0 +1,224 @@
+{
+  "questions": [
+    {
+      "id": "brand_info",
+      "section": "About Your Brand",
+      "number": "01",
+      "question": "Tell us about your brand.",
+      "subtitle": "Let's start with the basics.",
+      "type": "group",
+      "fields": [
+        {
+          "id": "f-brand-name",
+          "type": "text",
+          "placeholder": "Brand / Business Name",
+          "required": true
+        },
+        {
+          "id": "f-website",
+          "type": "url",
+          "placeholder": "Website (if any)",
+          "required": false
+        },
+        {
+          "id": "f-socials",
+          "type": "text",
+          "placeholder": "Instagram / Social Media Links",
+          "required": false
+        },
+        {
+          "id": "f-offer",
+          "type": "textarea",
+          "placeholder": "What do you offer? (Products / Services)",
+          "rows": 3,
+          "required": true
+        },
+        {
+          "id": "f-choose-you",
+          "type": "textarea",
+          "placeholder": "Why do people choose you?",
+          "rows": 3,
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "goals",
+      "section": "Your Goals",
+      "number": "02",
+      "question": "What do you want to achieve?",
+      "subtitle": "Help us understand your vision and direction.",
+      "type": "group",
+      "fields": [
+        {
+          "id": "f-success",
+          "type": "textarea",
+          "placeholder": "What does success look like for your brand?",
+          "rows": 3,
+          "required": true
+        },
+        {
+          "id": "f-short-goals",
+          "type": "textarea",
+          "placeholder": "What are your short-term goals?",
+          "rows": 3,
+          "required": false
+        },
+        {
+          "id": "f-long-goals",
+          "type": "textarea",
+          "placeholder": "What are your long-term goals?",
+          "rows": 3,
+          "required": false
+        },
+        {
+          "id": "f-challenge",
+          "type": "textarea",
+          "placeholder": "What is the biggest challenge you're facing right now?",
+          "rows": 3,
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "style",
+      "section": "Brand Style & Inspiration",
+      "number": "04",
+      "question": "Define your visual direction.",
+      "subtitle": "Help us understand the look and feel you love.",
+      "type": "group",
+      "fields": [
+        {
+          "id": "f-personality",
+          "type": "chips",
+          "placeholder": "How would you describe the personality of your brand?",
+          "options": [
+            "Luxury",
+            "Modern",
+            "Minimal",
+            "Professional",
+            "Friendly",
+            "Bold",
+            "Other"
+          ],
+          "multiSelect": true,
+          "required": true
+        },
+        {
+          "id": "f-inspiration",
+          "type": "textarea",
+          "placeholder": "Share 3 brands or designs you love (and why).",
+          "rows": 4,
+          "required": false
+        },
+        {
+          "id": "f-dislike",
+          "type": "textarea",
+          "placeholder": "Are there any colors, styles, or visuals you don't like?",
+          "rows": 3,
+          "required": false
+        }
+      ]
+    },
+    {
+      "id": "marketing",
+      "section": "Social Media & Marketing",
+      "number": "05",
+      "question": "Tell us about your current presence.",
+      "subtitle": "Help us understand where you are and where you've been.",
+      "type": "group",
+      "fields": [
+        {
+          "id": "f-platforms",
+          "type": "textarea",
+          "placeholder": "Which social media platforms are most important to you?",
+          "rows": 2,
+          "required": false
+        },
+        {
+          "id": "f-content",
+          "type": "textarea",
+          "placeholder": "What type of content do you prefer? (Photos, Videos, Reels, Graphics...)",
+          "rows": 2,
+          "required": false
+        },
+        {
+          "id": "f-paid-ads",
+          "type": "boolean",
+          "placeholder": "Do you currently run paid ads?",
+          "required": false
+        }
+      ]
+    },
+    {
+      "id": "workflow",
+      "section": "Workflow & Communication",
+      "number": "06",
+      "question": "Let's align on communication.",
+      "subtitle": "Help us work together as smoothly as possible.",
+      "type": "group",
+      "fields": [
+        {
+          "id": "f-contact",
+          "type": "text",
+          "placeholder": "Who will be our main point of contact?",
+          "required": true
+        },
+        {
+          "id": "f-response",
+          "type": "text",
+          "placeholder": "What is the expected response time for approvals?",
+          "required": false
+        },
+        {
+          "id": "f-assets",
+          "type": "boolean",
+          "placeholder": "Do you have content or assets ready to share?",
+          "required": false
+        },
+        {
+          "id": "f-dates",
+          "type": "textarea",
+          "placeholder": "Any important dates or events we should know about?",
+          "rows": 3,
+          "required": false
+        }
+      ]
+    },
+    {
+      "id": "budget",
+      "section": "Budget & Timeline",
+      "number": "07",
+      "question": "Let's plan the project properly.",
+      "subtitle": "Help us understand your expectations and timeline.",
+      "type": "group",
+      "fields": [
+        {
+          "id": "f-budget",
+          "type": "text",
+          "placeholder": "What is your estimated monthly budget for this project?",
+          "required": true
+        },
+        {
+          "id": "f-start",
+          "type": "text",
+          "placeholder": "When would you like to start?",
+          "required": false
+        },
+        {
+          "id": "f-project-type",
+          "type": "text",
+          "placeholder": "Are you looking for a short-term project or a long-term partnership?",
+          "required": false
+        },
+        {
+          "id": "f-extra",
+          "type": "textarea",
+          "placeholder": "Is there anything else we should know?",
+          "rows": 4,
+          "required": false
+        }
+      ]
+    }
+  ]
+}
