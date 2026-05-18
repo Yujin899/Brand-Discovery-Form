@@ -161,7 +161,7 @@
         {
           "id": "f-contact",
           "type": "text",
-          "placeholder": "Who will be our main point of contact?",
+          "placeholder": "Who will be our main point of contact? (name , phone number)",
           "required": true
         },
         {
