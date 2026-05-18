@@ -34,16 +34,6 @@
           "required": true
         },
         {
-<<<<<<< HEAD
-=======
-          "id": "f-difference",
-          "type": "textarea",
-          "placeholder": "What makes your brand different from competitors?",
-          "rows": 3,
-          "required": true
-        },
-        {
->>>>>>> 262b5314f4e289ea9d5706dd36016263d7b4bb66
           "id": "f-choose-you",
           "type": "textarea",
           "placeholder": "Why do people choose you?",
@@ -61,16 +51,6 @@
       "type": "group",
       "fields": [
         {
-<<<<<<< HEAD
-=======
-          "id": "f-main-reason",
-          "type": "textarea",
-          "placeholder": "What is the main reason you're working with us?",
-          "rows": 3,
-          "required": true
-        },
-        {
->>>>>>> 262b5314f4e289ea9d5706dd36016263d7b4bb66
           "id": "f-success",
           "type": "textarea",
           "placeholder": "What does success look like for your brand?",
@@ -101,59 +81,6 @@
       ]
     },
     {
-<<<<<<< HEAD
-=======
-      "id": "audience",
-      "section": "Your Audience",
-      "number": "03",
-      "question": "Tell us about your audience.",
-      "subtitle": "Let's talk about the people you serve.",
-      "type": "group",
-      "fields": [
-        {
-          "id": "f-ideal-customer",
-          "type": "textarea",
-          "placeholder": "Who is your ideal customer?",
-          "rows": 3,
-          "required": true
-        },
-        {
-          "id": "f-demographics",
-          "type": "text",
-          "placeholder": "Age range / Demographics",
-          "required": false
-        },
-        {
-          "id": "f-location",
-          "type": "text",
-          "placeholder": "Location",
-          "required": false
-        },
-        {
-          "id": "f-interests",
-          "type": "textarea",
-          "placeholder": "What are their interests?",
-          "rows": 3,
-          "required": false
-        },
-        {
-          "id": "f-pain-points",
-          "type": "textarea",
-          "placeholder": "What are their biggest problems or pain points?",
-          "rows": 3,
-          "required": true
-        },
-        {
-          "id": "f-motivation",
-          "type": "textarea",
-          "placeholder": "What would motivate them to choose your brand?",
-          "rows": 3,
-          "required": true
-        }
-      ]
-    },
-    {
->>>>>>> 262b5314f4e289ea9d5706dd36016263d7b4bb66
       "id": "style",
       "section": "Brand Style & Inspiration",
       "number": "04",
@@ -216,30 +143,6 @@
           "required": false
         },
         {
-<<<<<<< HEAD
-=======
-          "id": "f-tried",
-          "type": "textarea",
-          "placeholder": "What have you tried in the past?",
-          "rows": 2,
-          "required": false
-        },
-        {
-          "id": "f-worked",
-          "type": "textarea",
-          "placeholder": "What has worked well?",
-          "rows": 2,
-          "required": false
-        },
-        {
-          "id": "f-not-worked",
-          "type": "textarea",
-          "placeholder": "What hasn't worked?",
-          "rows": 2,
-          "required": false
-        },
-        {
->>>>>>> 262b5314f4e289ea9d5706dd36016263d7b4bb66
           "id": "f-paid-ads",
           "type": "boolean",
           "placeholder": "Do you currently run paid ads?",
@@ -268,15 +171,6 @@
           "required": false
         },
         {
-<<<<<<< HEAD
-=======
-          "id": "f-communication",
-          "type": "text",
-          "placeholder": "How do you prefer to communicate? (Email, WhatsApp, Slack...)",
-          "required": true
-        },
-        {
->>>>>>> 262b5314f4e289ea9d5706dd36016263d7b4bb66
           "id": "f-assets",
           "type": "boolean",
           "placeholder": "Do you have content or assets ready to share?",
